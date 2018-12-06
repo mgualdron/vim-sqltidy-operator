@@ -10,6 +10,7 @@
 "
 "               <Plug>(NormalSqlTidyLine)
 "               <plug>(NormalSqlTidy)
+"               <plug>(VisualSqlTidy)
 "               
 "               These can be mapped as follows:
 "

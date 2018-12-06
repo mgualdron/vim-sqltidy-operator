@@ -24,6 +24,7 @@ The module exposes the following `<Plug>` mappings:
 
     <Plug>(NormalSqlTidyLine)
     <plug>(NormalSqlTidy)
+    <plug>(VisualSqlTidy)
 
 These can be mapped to whatever keyboard shortcuts you wish.  This is only a 
 suggestion:
