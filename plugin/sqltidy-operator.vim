@@ -2,9 +2,7 @@
 " Plugin Name:  sqltidy-operator
 "
 " Purpose:      Small example Vim plugin to create a movement operator for 
-"               running a SQL tidy program called fsqlf.
-"
-"               See https://github.com/dnsmkl/fsqlf
+"               running a SQL tidy program.
 "
 " Note:         The following <Plug> mappings become available:
 "
@@ -21,7 +19,15 @@
 " --------------------------------------------------------------------------
 "
 " --------------------------------------------------------------------------
-" The <Plug> mapping definitions:
+" Check if we've set a SQL Tidy program to run:
+" --------------------------------------------------------------------------
+if !exists("g:vim_sqltidy_app")
+    finish
+endif
+" --------------------------------------------------------------------------
+"
+" --------------------------------------------------------------------------
+" The exposed <Plug> mapping definitions:
 " --------------------------------------------------------------------------
 nnoremap <script> <Plug>(NormalSqlTidyLine) :call <SID>SqlTidyLine()<cr>
 nnoremap <script> <Plug>(NormalSqlTidy) :set operatorfunc=<SID>SqlTidyOperator<cr>g@
@@ -29,7 +35,7 @@ vnoremap <script> <Plug>(VisualSqlTidy) :<c-u>call <SID>SqlTidyOperator(visualmo
 " --------------------------------------------------------------------------
 "
 " --------------------------------------------------------------------------
-" The SqlTidyOperator function applies SqlTidy to many text entities:
+" The SqlTidyOperator applies SqlTidy to many types of text entities:
 " --------------------------------------------------------------------------
 function! s:SqlTidyOperator(type, ...)
     let [sel, rv, rt] = [&selection, @@, getregtype('"')]
@@ -68,11 +74,10 @@ endfunction
 " --------------------------------------------------------------------------
 "
 " --------------------------------------------------------------------------
-" This function calls the external fsqlf command:
+" Call external SQL Tidy app using the contents of a:sqlcode,
+" storing the reults in the expression register, then paste.
 " --------------------------------------------------------------------------
-function! s:SqlTidy(sqlcode)
-    " Call external command fsqlf using the contents of a:sqlcode ,
-    " storing the reults in the exp register, then paste.
-    silent execute "normal! \"=system('fsqlf --config-file ~/.fsqlf', a:sqlcode)\<cr>P"
+function! s:SqlTidy(sqlcode,...)
+    silent execute "normal! \"=system(g:vim_sqltidy_app, a:sqlcode)\<cr>P"
 endfunction
 " --------------------------------------------------------------------------
